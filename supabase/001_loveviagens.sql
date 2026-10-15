@@ -113,6 +113,7 @@ begin
 end;
 $$;
 
+revoke execute on function loveviagens_conta() from public, anon;
 grant execute on function loveviagens_conta() to authenticated;
 
 
@@ -199,4 +200,5 @@ begin
 end;
 $$;
 
+revoke execute on function loveviagens_trocar(uuid, numeric, text) from public, anon;
 grant execute on function loveviagens_trocar(uuid, numeric, text) to authenticated;
