@@ -29,10 +29,7 @@
           <div class="muted small" id="conta-email"></div>
         </div>
       </div>
-      <div style="display:flex;gap:0.5rem">
-        <a class="btn btn-primary" href="/#pacotes">Trocar saldo por viagem</a>
-        <button class="btn btn-outline" id="btn-sair" type="button">Sair</button>
-      </div>
+      <a class="btn btn-outline" href="https://love.com.br/configuracoes" target="_blank" rel="noopener">Editar dados na Love</a>
     </div>
 
     <div class="alert alert-warning" id="aviso-saldo" style="margin-bottom:1.25rem" hidden></div>
@@ -57,12 +54,20 @@
 
     <div class="two-col">
       <div class="card">
-        <div class="card-head"><h3>Minhas viagens</h3><a class="small" href="/#pacotes">Ver pacotes</a></div>
-        <div class="list" id="lista-reservas"><div class="spinner"></div></div>
-      </div>
-      <div class="card">
         <div class="card-head"><h3>Extrato da carteira</h3></div>
         <div class="list" id="lista-extrato"><div class="spinner"></div></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Sobre a conta</h3></div>
+        <div class="card-body">
+          <div class="info-rows" style="margin-top:0">
+            <div><span>Tipo</span><span class="strong" id="info-tipo">—</span></div>
+            <div><span>E-mail</span><span class="strong" id="info-email">—</span></div>
+            <div><span>Viagens reservadas</span><span class="strong" id="info-reservas">—</span></div>
+          </div>
+          <div class="divider"></div>
+          <p class="muted small" style="margin:0">Nome, foto, senha e dados de saque são editados na própria Love. A Love Viagens só lê o saldo e registra as trocas por viagens.</p>
+        </div>
       </div>
     </div>
   </main>

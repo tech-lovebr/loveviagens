@@ -1,5 +1,5 @@
 /* ==========================================================================
-   LOVE VIAGENS — Minha conta: tipo da conta, saldo, reservas e extrato
+   LOVE VIAGENS — Minha conta: tipo da conta, saldo e extrato
    ========================================================================== */
 
 (async () => {
@@ -11,21 +11,22 @@
   document.getElementById('conta-email').textContent = conta.email || '';
   document.getElementById('conta-tipo').innerHTML =
     `<span class="badge ${conta.tipo === 'google' ? 'badge-neutral' : 'badge-primary'}">${tipo.rotulo}</span> <span class="muted small">${tipo.detalhe}</span>`;
-  document.getElementById('btn-sair').addEventListener('click', LV.sair);
+  document.getElementById('info-tipo').textContent = tipo.rotulo;
+  document.getElementById('info-email').textContent = conta.email || '—';
 
   const avatarEl = document.getElementById('conta-avatar');
   avatarEl.innerHTML = conta.avatar
     ? `<img src="${LV.escape(conta.avatar)}" alt="" referrerpolicy="no-referrer">`
-    : (conta.nome || '?').trim().charAt(0).toUpperCase();
+    : LV.iniciais(conta.nome);
 
   // Saldo
   document.getElementById('kpi-saldo').textContent = conta.saldoOk ? LV.moeda(conta.saldo) : '—';
   const avisoSaldo = document.getElementById('aviso-saldo');
   if (conta.tipo === 'google') {
-    avisoSaldo.innerHTML = 'Esta conta Google ainda não está ligada a uma conta Love. Para usar o saldo dos seus presentes, entre com a mesma conta que você usa em <a href="https://love.com.br" target="_blank" rel="noopener">love.com.br</a> ou no Hub B2B.';
+    avisoSaldo.innerHTML = 'Esta conta Google ainda não está ligada a uma conta Love. Para usar o saldo dos seus presentes, entre com a sua conta Love em <a href="/login">Entrar</a>.';
     avisoSaldo.hidden = false;
   } else if (!conta.saldoOk) {
-    avisoSaldo.textContent = 'Não foi possível ler o saldo agora. Rode a migration supabase/001_loveviagens.sql no projeto Supabase da Love ou tente de novo mais tarde.';
+    avisoSaldo.textContent = 'Não foi possível ler o saldo agora. Tente de novo em instantes.';
     avisoSaldo.hidden = false;
   }
 
@@ -34,35 +35,12 @@
   document.getElementById('kpi-recebido').textContent = LV.moeda(creditos);
   document.getElementById('kpi-usado').textContent = LV.moeda(debitos);
 
-  // Reservas: as reais (tabela viagens_reservas) + as simuladas deste navegador
-  let reservas = [];
-  try {
-    const { data, error } = await supabaseClient.from('viagens_reservas').select('*').eq('user_id', conta.id).order('created_at', { ascending: false });
-    if (!error && data) reservas = data;
-  } catch (e) {}
-  const demo = LV.reservasDemo().map(r => ({ ...r, simulada: true }));
-  reservas = [...reservas, ...demo].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
-  const listaReservas = document.getElementById('lista-reservas');
-  if (!reservas.length) {
-    listaReservas.innerHTML = '<div class="empty" style="margin:1.25rem">Você ainda não trocou saldo por nenhuma viagem. <a href="/#pacotes">Ver pacotes</a></div>';
-  } else {
-    listaReservas.innerHTML = reservas.map(r => `
-      <div class="list-item">
-        <div class="grow">
-          <div class="title">${LV.escape(r.titulo)} ${r.simulada ? '<span class="badge badge-warning">simulação</span>' : ''}</div>
-          <div class="sub">${LV.escape(r.destino || '')} · ${LV.data(r.created_at)} · ${LV.escape(statusReserva(r.status))}</div>
-        </div>
-        <div style="text-align:right">
-          <div class="amount">${LV.moeda(r.valor_saldo)} <span class="muted small">em saldo</span></div>
-          ${Number(r.valor_restante) > 0 ? `<div class="sub">+ ${LV.moeda(r.valor_restante)} a pagar</div>` : ''}
-        </div>
-      </div>`).join('');
-  }
+  const reservas = await LV.reservas();
+  document.getElementById('info-reservas').textContent = String(reservas.length);
 
   // Extrato
   const listaExtrato = document.getElementById('lista-extrato');
-  const tx = conta.transacoes.slice(0, 12);
+  const tx = conta.transacoes.slice(0, 20);
   if (!tx.length) {
     listaExtrato.innerHTML = `<div class="empty" style="margin:1.25rem">${conta.saldoOk ? 'Nenhuma movimentação na carteira ainda.' : 'Extrato indisponível.'}</div>`;
   } else {
@@ -74,9 +52,5 @@
         </div>
         <div class="amount ${t.type}">${t.type === 'credit' ? '+' : '−'} ${LV.moeda(t.amount)}</div>
       </div>`).join('');
-  }
-
-  function statusReserva(s) {
-    return { confirmada: 'Confirmada', pendente_pagamento: 'Aguardando pagamento do restante', cancelada: 'Cancelada' }[s] || s || 'Confirmada';
   }
 })();

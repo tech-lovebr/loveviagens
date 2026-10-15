@@ -12,6 +12,10 @@
   ],
   "rewrites": [
     { "source": "/login", "destination": "/login.html" },
+    { "source": "/app", "destination": "/app.html" },
+    { "source": "/viagens", "destination": "/viagens.html" },
+    { "source": "/minhas-viagens", "destination": "/minhas-viagens.html" },
+    { "source": "/auth-love", "destination": "/auth-love.html" },
     { "source": "/minha-conta", "destination": "/minha-conta.html" },
     { "source": "/pacote", "destination": "/pacote.html" },
     { "source": "/checkout", "destination": "/checkout.html" }

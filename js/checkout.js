@@ -12,11 +12,11 @@
   const p = await LV.pacote(LV.param('id'));
   const root = document.getElementById('checkout-root');
   if (!p) {
-    root.innerHTML = '<div class="empty" style="margin:3rem 0">Pacote não encontrado. <a href="/">Voltar para a vitrine</a></div>';
+    root.innerHTML = '<div class="empty" style="margin:3rem 0">Pacote não encontrado. <a href="/viagens">Ver as viagens</a></div>';
     return;
   }
   if (LV.vagasRestantes(p) === 0) {
-    root.innerHTML = `<div class="empty" style="margin:3rem 0">Este pacote está esgotado. <a href="/">Ver outros pacotes</a></div>`;
+    root.innerHTML = `<div class="empty" style="margin:3rem 0">Este pacote está esgotado. <a href="/viagens">Ver outros pacotes</a></div>`;
     return;
   }
 
@@ -124,6 +124,7 @@
       if (LV.ehDemo(p)) {
         reserva = {
           id: 'demo-' + Date.now(), pacote_id: p.id, titulo: p.titulo, destino: p.destino,
+          data_inicio: p.data_inicio || null, data_fim: p.data_fim || null,
           preco, valor_saldo: usar, valor_restante: restante, pagamento_restante: restante > 0 ? pagamento : null,
           status: restante > 0 ? 'pendente_pagamento' : 'confirmada', created_at: new Date().toISOString()
         };
@@ -162,8 +163,8 @@
           </div>
           ${String(r.id).startsWith('demo-') ? '<p class="muted small">Esta foi uma simulação com um pacote de demonstração; nada foi debitado do seu saldo real.</p>' : ''}
           <div style="display:flex;gap:0.75rem;margin-top:1rem">
-            <a class="btn btn-primary" href="/minha-conta">Ver em Minha conta</a>
-            <a class="btn btn-outline" href="/">Voltar à vitrine</a>
+            <a class="btn btn-primary" href="/minhas-viagens">Ver em Minhas viagens</a>
+            <a class="btn btn-outline" href="/viagens">Ver outras viagens</a>
           </div>
         </div>
       </div>`;

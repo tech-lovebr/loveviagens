@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Viagens — Love Viagens</title>
+  <meta name="theme-color" content="#183b54">
+  <link rel="icon" type="image/png" href="/assets/fav-love.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="/js/supabase-init.js"></script>
+  <script src="/js/data.js"></script>
+  <script src="/js/shell.js"></script>
+</head>
+<body data-page="viagens">
+  <header class="topbar" id="topbar"></header>
+
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1>Viagens</h1>
+        <p class="muted" style="margin:0.25rem 0 0">Lua de mel, destination wedding e experiências. Todas podem ser pagas com o saldo Love.</p>
+      </div>
+      <input class="field-input" id="busca" type="search" placeholder="Buscar destino ou pacote" style="max-width:300px">
+    </div>
+    <div class="alert alert-info" id="aviso-demo" style="margin-bottom:1rem" hidden>
+      Exibindo pacotes de demonstração. Cadastre os pacotes reais no Admin da Love › Love Viagens e eles aparecem aqui.
+    </div>
+    <div class="section-head" style="margin-bottom:1rem">
+      <div class="chips" id="chips-tipo"></div>
+      <p class="muted small" id="contador" style="margin:0"></p>
+    </div>
+    <div class="pacotes-grid" id="pacotes-grid" style="padding-bottom:3rem"><div class="spinner"></div></div>
+  </main>
+
+  <footer class="footer" id="footer"></footer>
+  <script>
+    LV.montarVitrine({ grid: 'pacotes-grid', chips: 'chips-tipo', busca: 'busca', contador: 'contador', aviso: 'aviso-demo' });
+  </script>
+</body>
+</html>

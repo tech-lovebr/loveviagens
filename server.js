@@ -24,7 +24,11 @@ const MIME_TYPES = {
 const ROTAS = {
   '/': '/index.html',
   '/login': '/login.html',
+  '/app': '/app.html',
+  '/viagens': '/viagens.html',
+  '/minhas-viagens': '/minhas-viagens.html',
   '/minha-conta': '/minha-conta.html',
+  '/auth-love': '/auth-love.html',
   '/pacote': '/pacote.html',
   '/checkout': '/checkout.html'
 };

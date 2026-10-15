@@ -18,14 +18,26 @@ Abre em `http://localhost:8091/`. Não há build nem dependências: é HTML, CSS
 | --- | --- | --- |
 | `/` | `index.html` | Vitrine: busca, destaques, filtro por tipo, como funciona, FAQ |
 | `/pacote?id=` | `pacote.html` | Detalhe do pacote, quanto do saldo ele cobre, botão de troca |
-| `/login` | `login.html` | Entrar com o Google ou com e-mail e senha da conta Love |
-| `/minha-conta` | `minha-conta.html` | Tipo da conta (Love / Love B2B / Google), saldo, viagens, extrato |
+| `/viagens` | `viagens.html` | Marketplace: todos os pacotes com busca e filtro (logado ou não) |
+| `/login` | `login.html` | Entrar com a conta Love (janelinha da Love) ou com o Google |
+| `/app` | `app.html` | Início da área logada: saldo, próximas viagens e vitrine |
+| `/minhas-viagens` | `minhas-viagens.html` | Viagens trocadas: próximas e passadas |
+| `/minha-conta` | `minha-conta.html` | Tipo da conta (Love / Love B2B / Google), saldo e extrato |
 | `/checkout?id=` | `checkout.html` | Escolhe quanto do saldo usar e confirma a troca |
 | `/auth-popup.html` | — | Volta do login com o Google em janelinha |
+| `/auth-love` | `auth-love.html` | Volta do login com a conta Love quando não deu para usar a janelinha |
+
+Header logado: Início · Viagens · Minhas viagens, saldo e avatar com menu (Minha conta, Como funciona, Dúvidas, Sair).
+
+## Login com a conta Love
+
+"Entrar com a conta Love" abre em uma janelinha a página `entrar-viagens.html` **da Love** (love.com.br; em localhost, `http://localhost:8090`). A pessoa entra lá com a interface da Love (ou só confirma, se já estiver logada na Love) e a página devolve a sessão por `postMessage` só para as origens permitidas (loveviagens.com.br e localhost:8091). Em celular ou com pop-up bloqueado, a página inteira vai para a Love e volta por `/auth-love`.
+
+Essa página vive no repositório da Love (branch `feat/login-externo-viagens`) e precisa estar publicada em love.com.br para funcionar em produção.
 
 ## Banco (Supabase)
 
-Rode `supabase/001_loveviagens.sql` no SQL Editor do projeto Supabase da Love. Ele cria:
+Rode `supabase/001_loveviagens.sql` e depois `supabase/002_reservas_datas.sql` no SQL Editor do projeto Supabase da Love. O primeiro cria:
 
 - `viagens_reservas` — reservas feitas aqui (RLS: cada pessoa vê as suas; admin vê tudo)
 - `loveviagens_conta()` — RPC que diz se a conta é de anfitrião (`index`) ou fornecedor (`b2b`), o saldo e o extrato

@@ -11,25 +11,82 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// Onde está a Love: em localhost, o servidor da Love (porta 8090); em
+// produção, love.com.br. A tela de login da Love (entrar-viagens.html) mora lá.
+const LOVE_ORIGIN = /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname)
+  ? 'http://localhost:8090'
+  : 'https://love.com.br';
+
+const ehCelular = () => window.matchMedia('(max-width: 767px)').matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+function abrirJanelinha(url, nome) {
+  const largura = 500, altura = 640;
+  const esquerda = Math.round(window.screenX + (window.outerWidth - largura) / 2);
+  const topo = Math.round(window.screenY + (window.outerHeight - altura) / 2.5);
+  const janela = window.open(url, nome, `width=${largura},height=${altura},left=${esquerda},top=${topo},menubar=no,toolbar=no,location=yes,status=no`);
+  if (janela) janela.focus();
+  return janela;
+}
+
+/* --------------------------------------------------------------------------
+   Entrar com a conta Love: abre a tela de login da própria Love numa
+   janelinha. A pessoa entra lá (ou só confirma, se já estiver logada na
+   Love) e a Love devolve a sessão por postMessage; aqui gravamos a sessão
+   no supabase-js e seguimos para o destino. No celular, ou com pop-up
+   bloqueado, a página inteira vai para a Love e volta por /auth-love.html.
+   -------------------------------------------------------------------------- */
+async function entrarComLove(destinoAposLogin) {
+  const destino = destinoAposLogin || '/app';
+  const base = `${LOVE_ORIGIN}/entrar-viagens.html?origin=${encodeURIComponent(window.location.origin)}`;
+  const porRedirect = () => {
+    const volta = `${window.location.origin}/auth-love.html?next=${encodeURIComponent(destino)}`;
+    window.location.href = `${base}&redirect=${encodeURIComponent(volta)}`;
+    return new Promise(() => {});
+  };
+  if (ehCelular()) return porRedirect();
+
+  const janela = abrirJanelinha(base, 'loveviagens-love-login');
+  if (!janela) return porRedirect();
+
+  return new Promise(resolve => {
+    let terminou = false;
+    const terminar = async (sessao) => {
+      if (terminou) return;
+      terminou = true;
+      window.removeEventListener('message', aoReceber);
+      clearInterval(vigia);
+      if (sessao) {
+        const { error } = await supabaseClient.auth.setSession({ access_token: sessao.access_token, refresh_token: sessao.refresh_token });
+        if (!error) { window.location.href = destino; return resolve({ error: null }); }
+      }
+      resolve({ error: new Error('Login com a conta Love não concluído') });
+    };
+    const aoReceber = (e) => {
+      if (e.origin !== LOVE_ORIGIN || !e.data || e.data.tipo !== 'love-login') return;
+      terminar(e.data);
+    };
+    window.addEventListener('message', aoReceber);
+    // Fechou a janelinha sem terminar: encerra sem erro visível.
+    const vigia = setInterval(() => { if (janela.closed) terminar(null); }, 500);
+  });
+}
+
 /* --------------------------------------------------------------------------
    Entrar com o Google em janelinha (pop-up), como na Love.
-   No computador abre a tela do Google numa janela pequena; a volta cai em
-   /auth-popup.html, que avisa esta aba e fecha. No celular, ou se o navegador
-   bloquear o pop-up, a página inteira vai para o Google e volta para /.
+   A volta do Google cai em /auth-popup.html, que avisa esta aba e fecha. No
+   celular, ou se o navegador bloquear o pop-up, a página inteira vai para o
+   Google e volta para o destino.
    Lembrete: a URL de retorno (ex.: http://localhost:8091/auth-popup.html e
    https://loveviagens.com.br/auth-popup.html) precisa estar na lista de
    Redirect URLs do Supabase (Authentication → URL Configuration).
    -------------------------------------------------------------------------- */
-const JANELA_GOOGLE = 'loveviagens-google-login';
-
 async function entrarComGoogle(destinoAposLogin) {
-  const destino = destinoAposLogin || '/minha-conta';
+  const destino = destinoAposLogin || '/app';
   const opcoesBase = {
     redirectTo: `${window.location.origin}${destino}`,
     queryParams: { prompt: 'select_account' }
   };
-  const ehCelular = window.matchMedia('(max-width: 767px)').matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-  if (ehCelular) return supabaseClient.auth.signInWithOAuth({ provider: 'google', options: opcoesBase });
+  if (ehCelular()) return supabaseClient.auth.signInWithOAuth({ provider: 'google', options: opcoesBase });
 
   const { data, error } = await supabaseClient.auth.signInWithOAuth({
     provider: 'google',
@@ -37,12 +94,8 @@ async function entrarComGoogle(destinoAposLogin) {
   });
   if (error || !data || !data.url) return supabaseClient.auth.signInWithOAuth({ provider: 'google', options: opcoesBase });
 
-  const largura = 500, altura = 640;
-  const esquerda = Math.round(window.screenX + (window.outerWidth - largura) / 2);
-  const topo = Math.round(window.screenY + (window.outerHeight - altura) / 2.5);
-  const janela = window.open(data.url, JANELA_GOOGLE, `width=${largura},height=${altura},left=${esquerda},top=${topo},menubar=no,toolbar=no,location=yes,status=no`);
+  const janela = abrirJanelinha(data.url, 'loveviagens-google-login');
   if (!janela) return supabaseClient.auth.signInWithOAuth({ provider: 'google', options: opcoesBase });
-  janela.focus();
 
   return new Promise(resolve => {
     let terminou = false;
@@ -59,7 +112,6 @@ async function entrarComGoogle(destinoAposLogin) {
       terminar(e.data.resultado === 'ok');
     };
     window.addEventListener('message', aoReceber);
-    // Se a pessoa fechar a janelinha sem terminar, confere a sessão e segue.
     const vigia = setInterval(async () => {
       if (!janela.closed) return;
       const { data } = await supabaseClient.auth.getSession();

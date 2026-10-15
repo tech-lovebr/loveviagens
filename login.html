@@ -34,31 +34,25 @@
     <main class="auth-main">
       <div class="auth-box">
         <h1>Entrar</h1>
-        <p class="muted">Use o Google ou a sua conta Love.</p>
+        <p class="muted">Escolha como quer entrar. As duas opções abrem em uma janela e voltam para cá.</p>
+
+        <button class="btn btn-primary btn-lg btn-block" id="btn-love" type="button">
+          <img src="/assets/logo-white.png" alt="" style="height:16px;width:auto">
+          Entrar com a conta Love
+        </button>
+        <p class="muted small" style="margin:0.625rem 0 0">Abre a tela da Love. Se você já estiver conectado na Love, é só confirmar.</p>
+
+        <div class="or">ou</div>
 
         <button class="btn btn-outline btn-lg btn-block btn-google" id="btn-google" type="button">
           <img src="https://www.gstatic.com/firebaseui/latest/images/auth/google.svg" alt="">
           Entrar com o Google
         </button>
 
-        <div class="or">ou com a conta Love</div>
+        <div class="alert alert-danger" id="login-erro" style="margin-top:1rem" hidden></div>
 
-        <form id="form-love" novalidate>
-          <label class="field">
-            <span class="field-label">E-mail</span>
-            <input class="field-input" name="email" type="email" autocomplete="email" placeholder="voce@exemplo.com" required>
-          </label>
-          <label class="field">
-            <span class="field-label">Senha</span>
-            <input class="field-input" name="senha" type="password" autocomplete="current-password" placeholder="••••••••" required>
-          </label>
-          <div class="alert alert-danger" id="login-erro" style="margin-bottom:1rem" hidden></div>
-          <button class="btn btn-primary btn-lg btn-block" id="btn-entrar" type="submit">Entrar com a conta Love</button>
-        </form>
-
-        <p class="muted small" style="margin-top:1.25rem">
-          Ainda não tem conta Love? <a href="https://love.com.br/cadastro" target="_blank" rel="noopener">Crie em love.com.br</a> ·
-          <a href="https://love.com.br/" target="_blank" rel="noopener">Esqueci a senha</a>
+        <p class="muted small" style="margin-top:1.5rem">
+          Ainda não tem conta Love? <a href="https://love.com.br/cadastro" target="_blank" rel="noopener">Crie em love.com.br</a>
         </p>
       </div>
     </main>

@@ -21,7 +21,7 @@
   const cobre = saldo !== null ? Math.min(saldo, Number(p.preco)) : null;
 
   root.innerHTML = `
-    <div class="breadcrumb"><a href="/">Pacotes</a> › ${LV.escape(LV.TIPOS_VIAGEM[p.tipo] || p.tipo)} › ${LV.escape(p.titulo)}</div>
+    <div class="breadcrumb"><a href="/viagens">Viagens</a> › ${LV.escape(LV.TIPOS_VIAGEM[p.tipo] || p.tipo)} › ${LV.escape(p.titulo)}</div>
     <div class="pacote-layout">
       <div>
         <div class="pacote-hero"><img src="${LV.escape(p.imagem_url || '')}" alt="" onerror="this.style.display='none'"></div>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Início — Love Viagens</title>
+  <meta name="theme-color" content="#183b54">
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="/assets/fav-love.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="/js/supabase-init.js"></script>
+  <script src="/js/data.js"></script>
+  <script src="/js/shell.js"></script>
+</head>
+<body data-page="app">
+  <header class="topbar" id="topbar"></header>
+
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1 id="saudacao">Olá</h1>
+        <p class="muted" style="margin:0.25rem 0 0">Seu saldo Love está pronto para virar viagem.</p>
+      </div>
+    </div>
+
+    <div class="alert alert-warning" id="aviso-saldo" style="margin-bottom:1.25rem" hidden></div>
+
+    <section class="app-topo">
+      <div class="card kpi kpi-saldo">
+        <p class="kpi-label">Saldo disponível para viagens</p>
+        <p class="kpi-value" id="kpi-saldo">—</p>
+        <p class="kpi-sub">Mesmo saldo da Carteira da sua conta Love</p>
+        <div style="margin-top:1rem;display:flex;gap:.5rem;flex-wrap:wrap">
+          <a class="btn btn-outline" href="/viagens">Escolher uma viagem</a>
+          <a class="btn btn-ghost" href="/minha-conta" style="color:#fff">Ver extrato</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Próximas viagens</h3><a class="small" href="/minhas-viagens">Ver todas</a></div>
+        <div class="list" id="lista-proximas"><div class="spinner"></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="pacotes" style="padding-top:2rem">
+      <div class="section-head">
+        <div><h2>Viagens para trocar pelo seu saldo</h2><p class="muted" id="contador"></p></div>
+        <input class="field-input" id="busca" type="search" placeholder="Buscar destino ou pacote" style="max-width:280px">
+      </div>
+      <div class="alert alert-info" id="aviso-demo" style="margin-bottom:1rem" hidden>
+        Exibindo pacotes de demonstração. Cadastre os pacotes reais no Admin da Love › Love Viagens e eles aparecem aqui.
+      </div>
+      <div class="chips" id="chips-tipo" style="margin-bottom:1.25rem"></div>
+      <div class="pacotes-grid" id="pacotes-grid"><div class="spinner"></div></div>
+      <div style="margin-top:1.5rem;text-align:center"><a class="btn btn-outline" href="/viagens">Ver todas as viagens</a></div>
+    </section>
+  </main>
+
+  <footer class="footer" id="footer"></footer>
+  <script src="/js/app.js"></script>
+</body>
+</html>

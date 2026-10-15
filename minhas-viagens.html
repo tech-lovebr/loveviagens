@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minhas viagens — Love Viagens</title>
+  <meta name="theme-color" content="#183b54">
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="/assets/fav-love.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="/js/supabase-init.js"></script>
+  <script src="/js/data.js"></script>
+  <script src="/js/shell.js"></script>
+</head>
+<body data-page="minhas-viagens">
+  <header class="topbar" id="topbar"></header>
+
+  <main class="container">
+    <div class="page-head">
+      <div>
+        <h1>Minhas viagens</h1>
+        <p class="muted" style="margin:0.25rem 0 0">As viagens que você trocou pelo saldo Love.</p>
+      </div>
+      <a class="btn btn-primary" href="/viagens">Escolher outra viagem</a>
+    </div>
+
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-aba="proximas" type="button">Próximas <span class="tab-count" id="count-proximas"></span></button>
+      <button class="tab" data-aba="passadas" type="button">Passadas <span class="tab-count" id="count-passadas"></span></button>
+    </div>
+
+    <div class="reservas-grid" id="lista" style="padding-bottom:3rem"><div class="spinner"></div></div>
+  </main>
+
+  <footer class="footer" id="footer"></footer>
+  <script src="/js/minhas-viagens.js"></script>
+</body>
+</html>
