@@ -1,0 +1,19 @@
+{
+  "framework": null,
+  "buildCommand": null,
+  "installCommand": null,
+  "outputDirectory": ".",
+  "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    { "source": "/login.html", "destination": "/login", "permanent": true },
+    { "source": "/minha-conta.html", "destination": "/minha-conta", "permanent": true },
+    { "source": "/pacote.html", "destination": "/pacote", "permanent": true },
+    { "source": "/checkout.html", "destination": "/checkout", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/minha-conta", "destination": "/minha-conta.html" },
+    { "source": "/pacote", "destination": "/pacote.html" },
+    { "source": "/checkout", "destination": "/checkout.html" }
+  ]
+}

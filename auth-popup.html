@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Entrando… — Love Viagens</title>
+  <link rel="icon" type="image/png" href="/assets/fav-love.png">
+  <style>
+    html, body { margin: 0; height: 100%; background: #FFFFFF; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #52525B; }
+    .centro { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; font-size: 0.875rem; text-align: center; padding: 1.5rem; box-sizing: border-box; }
+    .spinner { width: 28px; height: 28px; border: 3px solid #E4E4E7; border-top-color: #183B54; border-radius: 50%; animation: gira 0.8s linear infinite; }
+    @keyframes gira { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <!-- Fim do login com o Google aberto em janelinha: o supabase-js lê a sessão
+       da URL e grava no armazenamento do site; aqui só avisamos a página que
+       abriu a janela e fechamos. Sem página de origem, segue para a conta. -->
+  <div class="centro">
+    <div class="spinner" aria-hidden="true"></div>
+    <p id="texto">Entrando com o Google…</p>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="/js/supabase-init.js"></script>
+  <script>
+    (async () => {
+      const temErro = /error=/.test(location.hash + location.search);
+      let sessao = null;
+      for (let i = 0; i < 20 && !temErro; i++) {
+        const { data } = await supabaseClient.auth.getSession();
+        if (data && data.session) { sessao = data.session; break; }
+        await new Promise(r => setTimeout(r, 150));
+      }
+      const resultado = sessao ? 'ok' : 'erro';
+      if (window.opener && !window.opener.closed) {
+        try { window.opener.postMessage({ tipo: 'loveviagens-google-login', resultado }, location.origin); } catch (e) {}
+        window.close();
+        return;
+      }
+      if (sessao) { location.replace('/minha-conta'); return; }
+      document.getElementById('texto').textContent = 'Não foi possível entrar com o Google. Feche esta janela e tente de novo.';
+    })();
+  </script>
+</body>
+</html>

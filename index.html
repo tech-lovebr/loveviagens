@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Love Viagens — troque seu saldo Love por uma viagem</title>
+  <meta name="description" content="Pacotes de lua de mel, destination wedding e experiências. Use o saldo dos presentes da sua conta Love para pagar a viagem.">
+  <meta name="theme-color" content="#183b54">
+  <link rel="icon" type="image/png" href="/assets/fav-love.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="/js/supabase-init.js"></script>
+  <script src="/js/data.js"></script>
+  <script src="/js/shell.js"></script>
+</head>
+<body data-page="vitrine">
+  <header class="topbar" id="topbar"></header>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="badge badge-primary" style="margin-bottom:1rem">Novo · Parte da plataforma Love</span>
+        <h1>O presente dos seus convidados vira a viagem de vocês.</h1>
+        <p class="lead">Todo saldo que você recebeu na sua conta Love pode ser trocado por um pacote de lua de mel, destination wedding ou experiência. Sem saque, sem transferência: escolhe, confirma e viaja.</p>
+        <form class="hero-search" id="form-busca-hero">
+          <input class="field-input" id="busca-hero" type="search" placeholder="Para onde vocês querem ir? Ex.: Noronha, Maldivas, Gramado">
+          <button class="btn btn-primary" type="submit">Buscar</button>
+        </form>
+        <div class="hero-stats">
+          <div><strong>100% do saldo</strong><span>usado na viagem, sem taxa de saque</span></div>
+          <div><strong>Reserva na hora</strong><span>confirmada direto na plataforma</span></div>
+          <div><strong>Curadoria Love</strong><span>pacotes escolhidos para casais</span></div>
+        </div>
+      </div>
+      <div class="hero-img">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="Casal na praia">
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="sec-destaques" hidden>
+    <div class="container">
+      <div class="section-head">
+        <div><h2>Destaques da semana</h2><p class="muted">Os pacotes mais trocados pelos casais da Love.</p></div>
+      </div>
+      <div class="pacotes-grid" id="destaques-grid"></div>
+    </div>
+  </section>
+
+  <section class="section" id="pacotes" style="padding-top:1rem">
+    <div class="container">
+      <div class="section-head">
+        <div><h2>Todos os pacotes</h2><p class="muted" id="contador"></p></div>
+        <input class="field-input" id="busca" type="search" placeholder="Buscar destino ou pacote" style="max-width:280px">
+      </div>
+      <div class="alert alert-info" id="aviso-demo" style="margin-bottom:1rem" hidden>
+        Exibindo pacotes de demonstração. Cadastre os pacotes reais no Admin da Love › Love Viagens e eles aparecem aqui.
+      </div>
+      <div class="chips" id="chips-tipo" style="margin-bottom:1.25rem"></div>
+      <div class="pacotes-grid" id="pacotes-grid"><div class="spinner"></div></div>
+    </div>
+  </section>
+
+  <section class="banda">
+    <div class="container banda-inner">
+      <div>
+        <h2>Já tem saldo na sua conta Love?</h2>
+        <p>Entre com a sua conta Love (a mesma de love.com.br ou do Hub B2B) ou com o Google, veja quanto tem disponível e escolha a viagem. A diferença, se houver, pode ser paga à parte.</p>
+      </div>
+      <a class="btn btn-outline btn-lg" href="/login">Ver meu saldo</a>
+    </div>
+  </section>
+
+  <section class="section" id="como-funciona">
+    <div class="container">
+      <div class="section-head"><div><h2>Como funciona</h2><p class="muted">Três passos entre o presente e o embarque.</p></div></div>
+      <div class="steps">
+        <div class="card step"><div class="step-num">1</div><h3>Entre com a sua conta Love</h3><p>Use o Google ou o e-mail e senha da sua conta Love. O saldo da carteira aparece na hora, seja da conta de anfitrião ou da conta B2B.</p></div>
+        <div class="card step"><div class="step-num">2</div><h3>Escolha o pacote</h3><p>Lua de mel, destination wedding ou uma experiência. Cada pacote mostra o que está incluso, as datas e quanto do seu saldo ele cobre.</p></div>
+        <div class="card step"><div class="step-num">3</div><h3>Troque e viaje</h3><p>Defina quanto do saldo usar e confirme. A reserva fica registrada em Minha conta; se faltar algo, você paga a diferença por Pix ou cartão.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="duvidas">
+    <div class="container" style="max-width:800px">
+      <div class="section-head"><div><h2>Dúvidas frequentes</h2></div></div>
+      <div class="faq">
+        <details><summary>Que saldo posso usar?</summary><p>O saldo disponível na Carteira da sua conta Love: os presentes em dinheiro que os convidados enviaram e ainda não foram sacados. Fornecedores com conta B2B usam o saldo da carteira do Hub.</p></details>
+        <details><summary>Preciso criar outra conta?</summary><p>Não. A Love Viagens usa o mesmo login da Love. Entre com o Google ou com o e-mail e senha que você já usa.</p></details>
+        <details><summary>E se o saldo não cobrir o pacote inteiro?</summary><p>Você escolhe quanto do saldo usar e paga o restante por Pix ou cartão. A reserva fica registrada enquanto o pagamento é concluído.</p></details>
+        <details><summary>Posso usar só uma parte do saldo?</summary><p>Sim. No checkout você define o valor exato que quer trocar; o restante continua disponível na sua carteira.</p></details>
+        <details><summary>A reserva pode ser cancelada?</summary><p>Cada pacote tem sua política. Em caso de cancelamento dentro do prazo, o valor volta como saldo na sua conta Love.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer" id="footer"></footer>
+  <script src="/js/vitrine.js"></script>
+</body>
+</html>

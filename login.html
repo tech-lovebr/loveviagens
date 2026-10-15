@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrar — Love Viagens</title>
+  <meta name="theme-color" content="#183b54">
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="/assets/fav-love.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="/js/supabase-init.js"></script>
+  <script src="/js/data.js"></script>
+  <script src="/js/shell.js"></script>
+</head>
+<body data-page="login">
+  <header class="topbar" id="topbar"></header>
+
+  <div class="auth-page">
+    <aside class="auth-side">
+      <img src="/assets/logo-white.png" alt="Love" style="height:36px;width:auto;margin-bottom:2rem">
+      <h2>Seu saldo Love, agora em forma de viagem.</h2>
+      <p>Entre com a conta que você já usa na Love. O saldo da carteira aparece aqui e pode ser trocado por qualquer pacote da vitrine.</p>
+      <ul>
+        <li>Anfitriões (love.com.br): saldo dos presentes recebidos</li>
+        <li>Fornecedores (Hub B2B): saldo da carteira do Hub</li>
+        <li>Sem cadastro novo, sem taxa de saque</li>
+      </ul>
+    </aside>
+
+    <main class="auth-main">
+      <div class="auth-box">
+        <h1>Entrar</h1>
+        <p class="muted">Use o Google ou a sua conta Love.</p>
+
+        <button class="btn btn-outline btn-lg btn-block btn-google" id="btn-google" type="button">
+          <img src="https://www.gstatic.com/firebaseui/latest/images/auth/google.svg" alt="">
+          Entrar com o Google
+        </button>
+
+        <div class="or">ou com a conta Love</div>
+
+        <form id="form-love" novalidate>
+          <label class="field">
+            <span class="field-label">E-mail</span>
+            <input class="field-input" name="email" type="email" autocomplete="email" placeholder="voce@exemplo.com" required>
+          </label>
+          <label class="field">
+            <span class="field-label">Senha</span>
+            <input class="field-input" name="senha" type="password" autocomplete="current-password" placeholder="••••••••" required>
+          </label>
+          <div class="alert alert-danger" id="login-erro" style="margin-bottom:1rem" hidden></div>
+          <button class="btn btn-primary btn-lg btn-block" id="btn-entrar" type="submit">Entrar com a conta Love</button>
+        </form>
+
+        <p class="muted small" style="margin-top:1.25rem">
+          Ainda não tem conta Love? <a href="https://love.com.br/cadastro" target="_blank" rel="noopener">Crie em love.com.br</a> ·
+          <a href="https://love.com.br/" target="_blank" rel="noopener">Esqueci a senha</a>
+        </p>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/login.js"></script>
+</body>
+</html>

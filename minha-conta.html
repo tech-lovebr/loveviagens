@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minha conta — Love Viagens</title>
+  <meta name="theme-color" content="#183b54">
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="/assets/fav-love.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="/js/supabase-init.js"></script>
+  <script src="/js/data.js"></script>
+  <script src="/js/shell.js"></script>
+</head>
+<body data-page="conta">
+  <header class="topbar" id="topbar"></header>
+
+  <main class="container">
+    <div class="page-head">
+      <div style="display:flex;align-items:center;gap:1rem">
+        <div class="avatar" id="conta-avatar" style="width:52px;height:52px;font-size:1.1rem"></div>
+        <div>
+          <h1 id="conta-nome">…</h1>
+          <div class="conta-tipo" id="conta-tipo"></div>
+          <div class="muted small" id="conta-email"></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.5rem">
+        <a class="btn btn-primary" href="/#pacotes">Trocar saldo por viagem</a>
+        <button class="btn btn-outline" id="btn-sair" type="button">Sair</button>
+      </div>
+    </div>
+
+    <div class="alert alert-warning" id="aviso-saldo" style="margin-bottom:1.25rem" hidden></div>
+
+    <div class="conta-grid">
+      <div class="card kpi kpi-saldo">
+        <p class="kpi-label">Saldo disponível para viagens</p>
+        <p class="kpi-value" id="kpi-saldo">—</p>
+        <p class="kpi-sub">Mesmo saldo da Carteira da sua conta Love</p>
+      </div>
+      <div class="card kpi">
+        <p class="kpi-label">Total recebido</p>
+        <p class="kpi-value" id="kpi-recebido">—</p>
+        <p class="kpi-sub">Créditos na carteira</p>
+      </div>
+      <div class="card kpi">
+        <p class="kpi-label">Já utilizado</p>
+        <p class="kpi-value" id="kpi-usado">—</p>
+        <p class="kpi-sub">Saques e trocas por viagens</p>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-head"><h3>Minhas viagens</h3><a class="small" href="/#pacotes">Ver pacotes</a></div>
+        <div class="list" id="lista-reservas"><div class="spinner"></div></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Extrato da carteira</h3></div>
+        <div class="list" id="lista-extrato"><div class="spinner"></div></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer" id="footer"></footer>
+  <script src="/js/conta.js"></script>
+</body>
+</html>

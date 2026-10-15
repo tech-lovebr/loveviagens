@@ -1,0 +1,11 @@
+{
+  "name": "loveviagens",
+  "version": "0.1.0",
+  "description": "Love Viagens - troque seu saldo Love por uma viagem",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "license": "ISC"
+}
